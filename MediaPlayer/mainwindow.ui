@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Qt Simple Media Player</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="layoutWidget">
@@ -49,11 +49,11 @@
       <x>10</x>
       <y>10</y>
       <width>381</width>
-      <height>47</height>
+      <height>65</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout_4">
-     <item row="0" column="0">
+     <item row="1" column="0">
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="label_Progress">
@@ -71,7 +71,7 @@
        </item>
       </layout>
      </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="1">
         <widget class="QPushButton" name="bt_Pause">
@@ -95,6 +95,13 @@
         </widget>
        </item>
       </layout>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_SongName">
+       <property name="text">
+        <string>Now Playing:</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>
@@ -138,12 +145,12 @@
   <widget class="QStatusBar" name="statusBar"/>
   <action name="Action_NewFile">
    <property name="text">
-    <string>開啟新檔</string>
+    <string>Open the file</string>
    </property>
   </action>
   <action name="Action_NewFolderFiles">
    <property name="text">
-    <string>開啟所有資料夾內的檔案</string>
+    <string>Open  files in the folder</string>
    </property>
   </action>
  </widget>

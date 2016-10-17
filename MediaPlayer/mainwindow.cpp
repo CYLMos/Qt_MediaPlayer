@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     Player = new QMediaPlayer(this);
     Playlist = new QMediaPlaylist;
     Playlist->setPlaybackMode(QMediaPlaylist::PlaybackMode::Loop);
+    Player->setPlaylist(Playlist);
 
     ui->table_Playlist->setColumnCount(1);
     QStringList headerList;
@@ -22,7 +23,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(Player,&QMediaPlayer::positionChanged,ui->slider_Progress,&QSlider::setValue);
     connect(Player,&QMediaPlayer::durationChanged,ui->slider_Progress,&QSlider::setMaximum);
+    connect(Playlist,SIGNAL(currentIndexChanged(int)),this,SLOT(changMessage(int)));
 
+    //initial volume to 50
     ui->slider_Volume->setValue(50);
     on_slider_Volume_sliderMoved(50);
 }
@@ -40,17 +43,16 @@ void MainWindow::on_Action_NewFile_triggered()
     QString filename = QFileDialog::getOpenFileName(this,"Open file","","Music Files(*.mp3)");
     Playlist->addMedia(QUrl(filename));
     if(Player->mediaStatus() == QMediaPlayer::NoMedia){
-        Playlist->setCurrentIndex(1);
-        Player->setPlaylist(Playlist);
-        Player->play();
+        Playlist->setCurrentIndex(0);
     }
+    //add music to table_Playlist
     QFileInfo file;
     file.setFile(filename);
     int index = ui->table_Playlist->rowCount();
     ui->table_Playlist->insertRow(index);
     QTableWidgetItem *newItem = new QTableWidgetItem;
     newItem->setText(file.completeBaseName());
-    newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+    newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);//item can not be edited
     ui->table_Playlist->setItem(index,0,newItem);
 }
 
@@ -63,7 +65,8 @@ void MainWindow::on_Action_NewFolderFiles_triggered()
         if(ui->table_Playlist->rowCount() > 0){ui->table_Playlist->setRowCount(0);}
         if(!Playlist->isEmpty()){
             delete Playlist;
-            Playlist = new QMediaPlaylist;Playlist->setPlaybackMode(QMediaPlaylist::PlaybackMode::Loop);
+            Playlist = new QMediaPlaylist;
+            Playlist->setPlaybackMode(QMediaPlaylist::PlaybackMode::Loop);
         }
         foreach(QFileInfo file, dir.entryInfoList()){
             if(file.isFile()){
@@ -75,6 +78,7 @@ void MainWindow::on_Action_NewFolderFiles_triggered()
                 }
                 if(s == "3pm"){
                     Playlist->addMedia(QUrl(file.absoluteFilePath()));
+                    //add music to table_Playlist
                     int index = ui->table_Playlist->rowCount();
                     ui->table_Playlist->insertRow(index);
                     QTableWidgetItem *newItem = new QTableWidgetItem;
@@ -84,9 +88,7 @@ void MainWindow::on_Action_NewFolderFiles_triggered()
                 }
             }
         }
-        Playlist->setCurrentIndex(1);
-        Player->setPlaylist(Playlist);
-        Player->play();
+        Playlist->setCurrentIndex(0);
     }
 }
 
@@ -128,4 +130,15 @@ void MainWindow::on_table_Playlist_cellDoubleClicked(int row, int column)
 {
     Playlist->setCurrentIndex(row);
     Player->play();
+}
+
+void MainWindow::changMessage(int position)
+{
+    if(this->now_PlaylistPosition != -1){
+        ui->table_Playlist->item(this->now_PlaylistPosition,0)->setBackground(Qt::white);
+    }
+    this->now_PlaylistPosition = position;
+    ui->table_Playlist->selectRow(this->now_PlaylistPosition);
+    ui->table_Playlist->item(position,0)->setBackground(Qt::blue);
+    ui->label_SongName->setText("Now Playing:" + ui->table_Playlist->item(position, 0)->text());
 }

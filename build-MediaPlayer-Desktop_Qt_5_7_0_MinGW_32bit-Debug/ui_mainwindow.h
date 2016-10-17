@@ -47,6 +47,7 @@ public:
     QPushButton *bt_Pause;
     QPushButton *bt_Stop;
     QPushButton *bt_Play;
+    QLabel *label_SongName;
     QTableWidget *table_Playlist;
     QMenuBar *menuBar;
     QMenu *menuFile;
@@ -86,7 +87,7 @@ public:
 
         layoutWidget1 = new QWidget(centralWidget);
         layoutWidget1->setObjectName(QStringLiteral("layoutWidget1"));
-        layoutWidget1->setGeometry(QRect(10, 10, 381, 47));
+        layoutWidget1->setGeometry(QRect(10, 10, 381, 65));
         gridLayout_4 = new QGridLayout(layoutWidget1);
         gridLayout_4->setSpacing(6);
         gridLayout_4->setContentsMargins(11, 11, 11, 11);
@@ -107,7 +108,7 @@ public:
         gridLayout_2->addWidget(slider_Progress, 0, 1, 1, 1);
 
 
-        gridLayout_4->addLayout(gridLayout_2, 0, 0, 1, 1);
+        gridLayout_4->addLayout(gridLayout_2, 1, 0, 1, 1);
 
         gridLayout_3 = new QGridLayout();
         gridLayout_3->setSpacing(6);
@@ -128,7 +129,12 @@ public:
         gridLayout_3->addWidget(bt_Play, 0, 0, 1, 1);
 
 
-        gridLayout_4->addLayout(gridLayout_3, 1, 0, 1, 1);
+        gridLayout_4->addLayout(gridLayout_3, 2, 0, 1, 1);
+
+        label_SongName = new QLabel(layoutWidget1);
+        label_SongName->setObjectName(QStringLiteral("label_SongName"));
+
+        gridLayout_4->addWidget(label_SongName, 0, 0, 1, 1);
 
         table_Playlist = new QTableWidget(centralWidget);
         table_Playlist->setObjectName(QStringLiteral("table_Playlist"));
@@ -158,14 +164,15 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        Action_NewFile->setText(QApplication::translate("MainWindow", "\351\226\213\345\225\237\346\226\260\346\252\224", 0));
-        Action_NewFolderFiles->setText(QApplication::translate("MainWindow", "\351\226\213\345\225\237\346\211\200\346\234\211\350\263\207\346\226\231\345\244\276\345\205\247\347\232\204\346\252\224\346\241\210", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Qt Simple Media Player", 0));
+        Action_NewFile->setText(QApplication::translate("MainWindow", "Open the file", 0));
+        Action_NewFolderFiles->setText(QApplication::translate("MainWindow", "Open  files in the folder", 0));
         label_Volume->setText(QApplication::translate("MainWindow", "Volume", 0));
         label_Progress->setText(QApplication::translate("MainWindow", "Progress", 0));
         bt_Pause->setText(QApplication::translate("MainWindow", "Pause", 0));
         bt_Stop->setText(QApplication::translate("MainWindow", "Stop", 0));
         bt_Play->setText(QApplication::translate("MainWindow", "Play", 0));
+        label_SongName->setText(QApplication::translate("MainWindow", "Now Playing:", 0));
         menuFile->setTitle(QApplication::translate("MainWindow", "File", 0));
     } // retranslateUi
 
